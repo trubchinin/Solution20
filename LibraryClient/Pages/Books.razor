@@ -1,0 +1,157 @@
+﻿@page "/books"
+@using DomainTables
+@inject LibraryClient.Services.BookService BookService
+
+<h3>Книги</h3>
+
+<button class="btn btn-primary mb-3" @onclick="ShowCreate">Додати книгу</button>
+
+@if (isLoading)
+{
+    <p><em>Завантаження…</em></p>
+}
+else
+{
+    @if (isFormVisible)
+    {
+        <EditForm Model="current" OnValidSubmit="Save">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-2">
+                <label>Назва</label>
+                <InputText class="form-control" @bind-Value="current.Title" />
+            </div>
+            <div class="mb-2">
+                <label>Автор</label>
+                <InputText class="form-control" @bind-Value="current.Author" />
+            </div>
+            <div class="mb-2">
+                <label>Тип</label>
+                <InputText class="form-control" @bind-Value="current.Type" />
+            </div>
+            <div class="mb-2">
+                <label>Кількість примірників</label>
+                <InputNumber class="form-control" @bind-Value="current.CopyCount" />
+            </div>
+
+            <button type="submit" class="btn btn-success me-2">Зберегти</button>
+            <button type="button" class="btn btn-secondary" @onclick="Cancel">Скасувати</button>
+        </EditForm>
+    }
+    else
+    {
+        @if (books is null || !books.Any())
+        {
+            <p>Немає жодної книги.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Назва</th>
+                        <th>Автор</th>
+                        <th>Тип</th>
+                        <th>Примірники</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var b in books)
+                    {
+                        <tr>
+                            <td>@b.Id</td>
+                            <td>@b.Title</td>
+                            <td>@b.Author</td>
+                            <td>@b.Type</td>
+                            <td>@b.CopyCount</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => Edit(b)">✏️</button>
+                                <button class="btn btn-sm btn-outline-danger" @onclick="() => Delete(b.Id)">🗑️</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}
+
+@code {
+    private List<Book>? books;
+    private Book current = new();
+    private bool isFormVisible = false;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        books = await BookService.GetAllAsync();
+        isFormVisible = false;
+        isLoading = false;
+    }
+
+    private void ShowCreate()
+    {
+        current = new Book();
+        isFormVisible = true;
+    }
+
+    private void Edit(Book b)
+    {
+        current = new Book
+            {
+                Id = b.Id,
+                Title = b.Title,
+                Author = b.Author,
+                Type = b.Type,
+                CopyCount = b.CopyCount
+            };
+        isFormVisible = true;
+    }
+
+    private void Cancel()
+    {
+        isFormVisible = false;
+    }
+
+    private async Task Save()
+    {
+        HttpResponseMessage response;
+        if (current.Id == 0)
+            response = await BookService.CreateAsync(current);
+        else
+            response = await BookService.UpdateAsync(current);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadData();
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.Error.WriteLine($"Помилка: {error}");
+        }
+    }
+
+    private async Task Delete(int id)
+    {
+        var response = await BookService.DeleteAsync(id);
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadData();
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.Error.WriteLine($"Помилка видалення: {error}");
+        }
+    }
+}

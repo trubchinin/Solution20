@@ -1,0 +1,131 @@
+﻿@page "/issues"
+@inject IssueService IssueService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Видачі</PageTitle>
+
+<h3>Видачі</h3>
+
+<button class="btn btn-primary mb-3" @onclick="ShowNew">Додати видачу</button>
+
+@if (isEditing)
+{
+    <EditForm Model="current" OnValidSubmit="Save">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label>ReaderId</label>
+            <InputNumber @bind-Value="current.ReaderId" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>BookId</label>
+            <InputNumber @bind-Value="current.BookId" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Дата видачі</label>
+            <InputDate @bind-Value="current.IssueDate" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Дата повернення</label>
+            <InputDate @bind-Value="current.ReturnDate" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Зберегти</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="Cancel">Скасувати</button>
+    </EditForm>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ReaderId</th>
+                <th>BookId</th>
+                <th>IssueDate</th>
+                <th>ReturnDate</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in issues)
+            {
+                <tr>
+                    <td>@item.ReaderId</td>
+                    <td>@item.BookId</td>
+                    <td>@item.IssueDate.ToShortDateString()</td>
+                    <td>@(item.ReturnDate?.ToShortDateString() ?? "-")</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" @onclick="() => Edit(item)">Редагувати</button>
+                        <button class="btn btn-sm btn-danger ms-2" @onclick="() => Delete(item)">Видалити</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Issue> issues = new();
+    Issue current = new();
+    bool isEditing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    async Task Load()
+    {
+        issues = await IssueService.GetAllAsync() ?? new();
+        isEditing = false;
+    }
+
+    void ShowNew()
+    {
+        current = new Issue { IssueDate = DateTime.Today };
+        isEditing = true;
+    }
+
+    void Edit(Issue i)
+    {
+        current = new Issue
+            {
+                ReaderId = i.ReaderId,
+                BookId = i.BookId,
+                IssueDate = i.IssueDate,
+                ReturnDate = i.ReturnDate
+            };
+        isEditing = true;
+    }
+
+    void Cancel()
+    {
+        isEditing = false;
+    }
+
+    async Task Save()
+    {
+        HttpResponseMessage resp;
+        bool exists = issues.Any(x => x.ReaderId == current.ReaderId && x.BookId == current.BookId);
+
+        resp = exists
+            ? await IssueService.UpdateAsync(current)
+            : await IssueService.CreateAsync(current);
+
+        if (resp.IsSuccessStatusCode)
+            await Load();
+        else
+            Console.Error.WriteLine($"Error {resp.StatusCode}");
+    }
+
+    async Task Delete(Issue i)
+    {
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Видалити видачу {i.ReaderId}/{i.BookId}?"))
+            return;
+
+        var resp = await IssueService.DeleteAsync(i.ReaderId, i.BookId);
+        if (resp.IsSuccessStatusCode)
+            await Load();
+    }
+}

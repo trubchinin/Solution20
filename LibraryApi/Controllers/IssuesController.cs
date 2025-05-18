@@ -34,25 +34,35 @@ namespace LibraryApi.Controllers
 
         // POST: api/issues
         [HttpPost]
-        public IActionResult Create([FromBody] Issue issue)
+        public IActionResult Create([FromBody] IssueDto dto)
         {
+            var issue = new Issue
+            {
+                ReaderId = dto.ReaderId,
+                BookId = dto.BookId,
+                IssueDate = dto.IssueDate,
+                ReturnDate = dto.ReturnDate
+            };
+
             _repo.AddIssue(issue);
-            return CreatedAtAction(nameof(Get),
+
+            return CreatedAtAction(
+                nameof(Get),
                 new { readerId = issue.ReaderId, bookId = issue.BookId },
                 issue);
         }
 
         // PUT: api/issues/{readerId}/{bookId}
         [HttpPut("{readerId:int}/{bookId:int}")]
-        public IActionResult Update(int readerId, int bookId, [FromBody] Issue issue)
+        public IActionResult Update(int readerId, int bookId, [FromBody] IssueDto dto)
         {
             var existing = _repo.GetIssue(readerId, bookId);
             if (existing == null) return NotFound();
 
-            // Підставляємо ключі з URL
-            issue.ReaderId = readerId;
-            issue.BookId = bookId;
-            _repo.UpdateIssue(issue);
+            existing.IssueDate = dto.IssueDate;
+            existing.ReturnDate = dto.ReturnDate;
+
+            _repo.UpdateIssue(existing);
             return NoContent();
         }
 
@@ -62,6 +72,7 @@ namespace LibraryApi.Controllers
         {
             var existing = _repo.GetIssue(readerId, bookId);
             if (existing == null) return NotFound();
+
             _repo.DeleteIssue(readerId, bookId);
             return NoContent();
         }

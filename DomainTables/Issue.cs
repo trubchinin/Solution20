@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace DomainTables
 {
@@ -19,8 +20,11 @@ namespace DomainTables
         // Дата повернення (nullable)
         public DateTime? ReturnDate { get; set; }
 
-        // Навігаційні властивості
+        // Навігаційні властивості — не серіалізуємо/не біндимо їх у JSON
+        [JsonIgnore]
         public Reader Reader { get; set; } = null!;
+
+        [JsonIgnore]
         public Book Book { get; set; } = null!;
     }
 }

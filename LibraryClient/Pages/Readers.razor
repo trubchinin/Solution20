@@ -1,0 +1,165 @@
+﻿@page "/readers"
+@using DomainTables
+@inject LibraryClient.Services.ReaderService ReaderService
+
+<h3>Читачі</h3>
+
+<button class="btn btn-primary mb-3" @onclick="ShowCreate">Додати читача</button>
+
+@if (isLoading)
+{
+    <p><em>Завантаження…</em></p>
+}
+else
+{
+    @if (isFormVisible)
+    {
+        <EditForm Model="current" OnValidSubmit="Save">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-2">
+                <label>Прізвище</label>
+                <InputText class="form-control" @bind-Value="current.LastName" />
+            </div>
+            <div class="mb-2">
+                <label>Ім’я</label>
+                <InputText class="form-control" @bind-Value="current.FirstName" />
+            </div>
+            <div class="mb-2">
+                <label>По батькові</label>
+                <InputText class="form-control" @bind-Value="current.Patronymic" />
+            </div>
+            <div class="mb-2">
+                <label>Дата народження</label>
+                <InputDate class="form-control" @bind-Value="current.BirthDate" />
+            </div>
+            <div class="mb-2">
+                <label>Категорія</label>
+                <InputText class="form-control" @bind-Value="current.Category" />
+            </div>
+
+            <button type="submit" class="btn btn-success me-2">Зберегти</button>
+            <button type="button" class="btn btn-secondary" @onclick="Cancel">Скасувати</button>
+        </EditForm>
+    }
+    else
+    {
+        @if (readers is null || !readers.Any())
+        {
+            <p>Немає жодного читача.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Прізвище</th>
+                        <th>Ім’я</th>
+                        <th>По батькові</th>
+                        <th>Категорія</th>
+                        <th>Дата нар.</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in readers)
+                    {
+                        <tr>
+                            <td>@r.Id</td>
+                            <td>@r.LastName</td>
+                            <td>@r.FirstName</td>
+                            <td>@r.Patronymic</td>
+                            <td>@r.Category</td>
+                            <td>@r.BirthDate.ToShortDateString()</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => Edit(r)">✏️</button>
+                                <button class="btn btn-sm btn-outline-danger" @onclick="() => Delete(r.Id)">🗑️</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}
+
+@code {
+    private List<Reader>? readers;
+    private Reader current = new();
+    private bool isFormVisible = false;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        readers = await ReaderService.GetAllAsync();
+        isFormVisible = false;
+        isLoading = false;
+    }
+
+    private void ShowCreate()
+    {
+        current = new Reader { BirthDate = DateTime.Today };
+        isFormVisible = true;
+    }
+
+    private void Edit(Reader r)
+    {
+        // копіюємо у новий об'єкт, щоб не міняти список напряму
+        current = new Reader
+            {
+                Id = r.Id,
+                LastName = r.LastName,
+                FirstName = r.FirstName,
+                Patronymic = r.Patronymic,
+                BirthDate = r.BirthDate,
+                Category = r.Category
+            };
+        isFormVisible = true;
+    }
+
+    private void Cancel()
+    {
+        isFormVisible = false;
+    }
+
+    private async Task Save()
+    {
+        HttpResponseMessage response;
+        if (current.Id == 0)
+            response = await ReaderService.CreateAsync(current);
+        else
+            response = await ReaderService.UpdateAsync(current);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadData();
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.Error.WriteLine($"Помилка: {error}");
+        }
+    }
+
+    private async Task Delete(int id)
+    {
+        var response = await ReaderService.DeleteAsync(id);
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadData();
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.Error.WriteLine($"Помилка видалення: {error}");
+        }
+    }
+}

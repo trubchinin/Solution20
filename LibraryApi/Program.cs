@@ -1,38 +1,69 @@
 ﻿using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Якщо середовище **не** Testing → підключаємо SQLite
-if (!builder.Environment.IsEnvironment("Testing"))
+// 1) Налаштовуємо CORS, щоб Blazor-клієнт (port 7236) міг робити запити на API (7086)
+builder.Services.AddCors(options =>
 {
-    builder.Services.AddDbContext<LibraryContext>(options =>
-        options.UseSqlite("Data Source=library.db"));
-}
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("https://localhost:7236") // адреса твого LibraryClient
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
-// Репозиторій завжди доступний (але контекст може бути від InMemory у тестах)
+// 2) Додаємо EF Core з SQLite
+builder.Services.AddDbContext<LibraryContext>(options =>
+    options.UseSqlite("Data Source=library.db"));
+
+// 3) Реєструємо наш репозиторій
 builder.Services.AddScoped<LibraryRepository>();
 
+// 4) Додаємо підтримку контролерів
 builder.Services.AddControllers();
+
+// 5) Додаємо Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "LibraryApi",
+        Version = "v1"
+    });
+});
 
 var app = builder.Build();
 
-// У середовищі розробки показуємо Swagger UI
+// --- 6) На старті створюємо БД і таблиці, якщо їх ще нема ---
+using (var scope = app.Services.CreateScope())
+{
+    var ctx = scope.ServiceProvider.GetRequiredService<LibraryContext>();
+    ctx.Database.EnsureCreated();
+}
+
+// 7) Підключаємо CORS middleware
+app.UseCors();
+
+// 8) Swagger у Development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "LibraryApi v1");
+    });
 }
 
 app.UseHttpsRedirection();
-
-// Якщо знадобиться авторизація — можна додати app.UseAuthorization();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
-
-public partial class Program { }

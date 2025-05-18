@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Projects\\Solution20\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CC10D293-2B7D-41C7-B969-796CA60A09E3}|DataAccessLayer\\DataAccessLayer.csproj|c:\\projects\\solution20\\dataaccesslayer\\libraryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC10D293-2B7D-41C7-B969-796CA60A09E3}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\libraryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34027BA3-CAB4-4F76-A29C-C3F49672073F}|DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj|c:\\projects\\solution20\\dataaccesslayer.tests\\libraryrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34027BA3-CAB4-4F76-A29C-C3F49672073F}|DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj|solutionrelative:dataaccesslayer.tests\\libraryrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC10D293-2B7D-41C7-B969-796CA60A09E3}|DataAccessLayer\\DataAccessLayer.csproj|c:\\projects\\solution20\\dataaccesslayer\\librarycontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC10D293-2B7D-41C7-B969-796CA60A09E3}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\librarycontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34027BA3-CAB4-4F76-A29C-C3F49672073F}|DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj|c:\\projects\\solution20\\dataaccesslayer.tests\\mstestsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34027BA3-CAB4-4F76-A29C-C3F49672073F}|DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj|solutionrelative:dataaccesslayer.tests\\mstestsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34027BA3-CAB4-4F76-A29C-C3F49672073F}|DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj|c:\\projects\\solution20\\dataaccesslayer.tests\\dataaccesslayer.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{34027BA3-CAB4-4F76-A29C-C3F49672073F}|DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj|solutionrelative:dataaccesslayer.tests\\dataaccesslayer.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LibraryRepositoryTests.cs",
+              "DocumentMoniker": "C:\\Projects\\Solution20\\DataAccessLayer.Tests\\LibraryRepositoryTests.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer.Tests\\LibraryRepositoryTests.cs",
+              "ToolTip": "C:\\Projects\\Solution20\\DataAccessLayer.Tests\\LibraryRepositoryTests.cs",
+              "RelativeToolTip": "DataAccessLayer.Tests\\LibraryRepositoryTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T07:08:57.566Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LibraryContext.cs",
+              "DocumentMoniker": "C:\\Projects\\Solution20\\DataAccessLayer\\LibraryContext.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\LibraryContext.cs",
+              "ToolTip": "C:\\Projects\\Solution20\\DataAccessLayer\\LibraryContext.cs",
+              "RelativeToolTip": "DataAccessLayer\\LibraryContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T07:03:17.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LibraryRepository.cs",
+              "DocumentMoniker": "C:\\Projects\\Solution20\\DataAccessLayer\\LibraryRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\LibraryRepository.cs",
+              "ToolTip": "C:\\Projects\\Solution20\\DataAccessLayer\\LibraryRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\LibraryRepository.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAYwIEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T07:05:30.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MSTestSettings.cs",
+              "DocumentMoniker": "C:\\Projects\\Solution20\\DataAccessLayer.Tests\\MSTestSettings.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer.Tests\\MSTestSettings.cs",
+              "ToolTip": "C:\\Projects\\Solution20\\DataAccessLayer.Tests\\MSTestSettings.cs",
+              "RelativeToolTip": "DataAccessLayer.Tests\\MSTestSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T07:08:22.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DataAccessLayer.Tests",
+              "DocumentMoniker": "C:\\Projects\\Solution20\\DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj",
+              "RelativeDocumentMoniker": "DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj",
+              "ToolTip": "C:\\Projects\\Solution20\\DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj",
+              "RelativeToolTip": "DataAccessLayer.Tests\\DataAccessLayer.Tests.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-05-18T07:09:25.562Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

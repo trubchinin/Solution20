@@ -1,0 +1,12 @@
+C:\Projects\Solution20\DomainTables\bin\Debug\net8.0\DomainTables.deps.json
+C:\Projects\Solution20\DomainTables\bin\Debug\net8.0\DomainTables.dll
+C:\Projects\Solution20\DomainTables\bin\Debug\net8.0\DomainTables.pdb
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\DomainTables.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\DomainTables.AssemblyInfoInputs.cache
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\DomainTables.AssemblyInfo.cs
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\DomainTables.csproj.CoreCompileInputs.cache
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\DomainTables.dll
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\refint\DomainTables.dll
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\DomainTables.pdb
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\ref\DomainTables.dll
+C:\Projects\Solution20\DomainTables\obj\Debug\net8.0\DomainTables.csproj.AssemblyReference.cache
